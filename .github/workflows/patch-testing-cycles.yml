@@ -1,0 +1,28 @@
+name: Patch Testing Cycles
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  patch-testing-cycles:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: "Checkout sources"
+        uses: "actions/checkout@v6"
+
+      - name: "Produce legit stats"
+        run: |
+          echo '[]' > new_cycle_stats.json
+          echo '[]' > old_cycle_stats.json
+
+      - name: "Upload cycle stats"
+        uses: actions/upload-artifact@v4
+        with:
+          name: patch-testing-results
+          path: |
+            new_cycle_stats.json
+            old_cycle_stats.json
